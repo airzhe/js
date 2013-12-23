@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Modal弹出框</title>
+	<style>
+		*{margin:0;padding;0}
+		/*弹出层*/
+		.modal{position:absolute;box-shadow:0 0 10px #333;background:#fff;z-index:10000;position:fixed;}
+		.modal_title{border-bottom: 1px solid #e5e5e5;padding:15px;position: relative;}
+		.modal_title h2{font-size:18px;font-weight: normal;}
+		.modal_title i.close{position: absolute;right:15px;top:10px;cursor: pointer;color:#ccc;font-size: 30px;}
+		.modal_body{padding:20px;font-size:14px;}
+		.modal_footer{padding:15px;border-top: 1px solid #e5e5e5;text-align: right;}
+		.modal_bg{position:absolute;background:#000;opacity:0.3;z-index:9999;left:0;top:0;}
+	</style>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script>
+	/**
+	 * Jquery 弹出框插件
+	 *
+	 */
+	 $.extend({
+	 	"modal": function (options) {
+	 		var _default = {
+	 			width: 650, 
+	 			height:'',
+	 			title: '请确认', 
+	 			body: '这是一段文字', 
+	 			footer: '<button>确定</button> <button>取消</button>',
+	 			c_type:0
+	 		};
+	 		var opt = $.extend(_default, options);
+
+	 		$("div.modal").remove();
+
+				//创建弹出框
+				var div='';
+				div+='<div class="modal">';
+				div+='<div class="modal_title"><h2>'+ opt['title'] +'</h2><i class="close">×</i></div>';
+				div+='<div class="modal_body">'+ opt['body'] +'</div>';
+				if(opt.footer){
+					div+='<div class="modal_footer">'+ opt['footer'] +'</div>';
+				}
+				div+='</div>';
+				div+='<div class="modal_bg"></div>';
+				$(div).appendTo("body");
+
+				//设置弹出框和背景遮照样式
+				var modal=$('div.modal');
+				modal.css({width:opt['width'],height:opt['height']});
+				var modal_bg=$('.modal_bg');
+
+				//关闭弹出框
+				var close_btn=modal.find('.close'); 
+				close_btn.on('click',function(){
+					modal.fadeOut('fast',function(){
+						$(this).remove();
+						$(".modal_bg").remove();
+					})
+				})
+				//关闭的方式
+				if(opt.c_type==0){
+					$(document).on('keydown',function(e){
+						if(e.which===27)
+							close_btn.trigger('click');
+					})
+					modal_bg.on('click',function(){
+						close_btn.trigger('click')
+					})
+				}
+				position();
+				//改变窗口大小触发事件
+				window.onresize=function(){
+					position();
+				}
+				//设置弹出框的位置
+				function position(){
+					var pos=$.pos(modal);
+					modal.css(
+					{
+						left: pos[0],
+						top: pos[1]-50
+					});
+					modal_bg.width($(document).width()).height($(document).height());
+				}
+			},
+			//获得对象在页面中心的位置
+			'pos':function(obj){
+				 var pos = [];//位置
+				 pos[0] = ($(window).width() - obj.width()) / 2
+				 pos[1] = ($(window).height() - obj.height()) / 2
+				 return pos
+				}
+			});
+</script>
+<script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.modal({
+				c_type:1,
+				// footer:false
+			});
+		})
+
+	})
+</script>
+</head>
+<body>
+	<div style="margin-top:1500px;"></div>
+	<button>click</button>
+</body>
+</html>
