@@ -1,5 +1,5 @@
- $.extend({
-	 	"modal": function (options) {
+$.extend({
+	"modal": function (options) {
 	 		var _default = {
 	 			top:'',
 	 			width: 400, 
@@ -71,12 +71,5 @@
 		 pos[1] = opt['top']?opt['top']:($(window).height() - obj.height()) / 2 - 50;
 		 return pos;
 		}
-	},
-	
-	// 'pos':function(obj){
-	// 	 var pos = [];//位置
-	// 	 pos[0] = ($(window).width() - obj.width()) / 2
-	// 	 pos[1] = obj.opt['top']?obj.opt['top']:($(window).height() - obj.height()) / 2
-	// 	 return pos
-	// 	}
+	}
 });
