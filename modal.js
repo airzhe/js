@@ -4,7 +4,7 @@ $.extend({
 	 			top:'',
 	 			width: 400, 
 	 			height:'',
-	 			title: '请确认', 
+	 			title: '提示', 
 	 			body: '加载中...', 
 	 			footer: '<button>确定</button> <button>取消</button>',
 	 			c_type:1,
@@ -30,6 +30,7 @@ $.extend({
 			var modal=$('div.modal');
 			modal.css({width:opt['width'],height:opt['height']});
 			var modal_bg=$('.modal_bg');
+			//回调函数
 			opt.callback(modal);
 			//关闭弹出框
 			var close_btn=modal.find('.close'); 
