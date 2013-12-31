@@ -1,8 +1,8 @@
 /**	
-*=========
-* 移动层插件
-*=========
-*/
+ *===============
+ * 移动层插件
+ *===============
+ */
 
 $.fn.extend({
 	drag:function(options){
@@ -46,10 +46,10 @@ $.fn.extend({
 });
 
 /**	
-*=========
-* 弹出框插件
-*=========
-*/
+ *===============
+ * modal弹出框插件
+ *===============
+ */
 
 $.extend({
 	"modal": function (options) {
@@ -128,12 +128,69 @@ $.extend({
 	}
 });
 
+/**	
+ *===============
+ * dialog对话框
+ *===============
+ */
 
-/*
-------------------
- 弹出层样式
-------------------
-*/
+$.extend({
+	"dialog": function (options) {
+		var _default={
+			//0为error 1为success
+			type:1,
+			width:240,
+			text:'loading...',
+			//关闭倒计时
+			timeout:1,
+			//关闭按钮
+			close:0
+		}
+		var opt=$.extend(_default,options);
+		var _class
+		if(opt.type==1){
+			_type='success';
+		}else{
+			_type='error';
+		}
+		//删除所有提示框
+		$("div.dialog").remove();
+		var div='';
+		div+='<div class="dialog '+ _type +'">';
+		div+='<p">'+ opt.text +'</p>';
+		if(opt.close){
+			div+='<i class="close">×</i>';
+		}
+		div+='</div>';
+		$(div).appendTo("body");
+		var dialog=$('.dialog');
+		var _x=($(window).width()-opt.width)/2;
+		var _y=($(window).height()-dialog.height())/2-50;
+		console.log($(window).width())
+		dialog.css({width:opt.width,left:_x,top:_y});
+		//自动关闭
+		var timer=setTimeout(function(){
+			close();
+		},opt.timeout * 1000)
+		//点击关闭
+		if(opt.close){
+			dialog.find('.close').click(function(){
+				close();
+			})
+		}
+		//关闭函数
+		function close(){
+			dialog.fadeOut(function(){
+				dialog.remove();
+			})
+		}
+	}
+});
+
+
+*------------------
+* //modal弹出层样式
+*------------------
 
 /*
 .modal{position:absolute;box-shadow:0 0 10px #333;background:#fff;z-index:10000;position:fixed;}
@@ -145,4 +202,18 @@ $.extend({
 .modal_footer{padding:15px;border-top: 1px solid #e5e5e5;text-align: right;}
 .modal_bg{position:absolute;background:#000;opacity:0.5;z-index:9999;left:0;top:0;}
 .modal input[type=submit],.modal button{padding:7px 13px;border:1px solid #e4e4e4;outline:none;background: none;cursor:pointer;color:#333;}
+*/
+
+
+*------------------
+* //dialog对话框样式
+*------------------
+
+/*
+.dialog{padding:20px;font-weight: bold;min-width: 200px;text-align: center;box-shadow: 2px 3px 3px #6B6B6B;position: absolute;}
+.dialog.success{color: #fff;background-color: #3F973F;border: 5px solid #fff;}
+.dialog.error{color: #b94a48;background-color: #f2dede;border: 5px solid #E45F73;}
+.dialog .close{position: absolute;right: 10px;top: 5px;font-size: 24px;cursor:pointer;}
+.dialog.success .close{color: #fff;}
+.dialog.success .error{color: #F39A9A;}
 */
