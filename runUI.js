@@ -4,8 +4,8 @@
  *===============
  */
 
-$.fn.extend({
-	drag:function(options){
+ $.fn.extend({
+ 	drag:function(options){
 		//默认配置
 		var _default={drag:'.drag'}
 		var opt = $.extend(_default, options);
@@ -51,21 +51,21 @@ $.fn.extend({
  *===============
  */
 
-$.extend({
-	"modal": function (options) {
-		var _default = {
-			top:'',
-			width: 400, 
-			height:'',
-			title: '提示', 
-			body: '加载中...', 
-			footer: '<button>确定</button> <button>取消</button>',
-			c_type:1,
-			callback: function (){}
-		};
-		var opt = $.extend(_default, options);
+ $.extend({
+ 	"modal": function (options) {
+ 		var _default = {
+ 			top:'',
+ 			width: 400, 
+ 			height:'',
+ 			title: '提示', 
+ 			body: '加载中...', 
+ 			footer: '<button>确定</button> <button>取消</button>',
+ 			c_type:1,
+ 			callback: function (){}
+ 		};
+ 		var opt = $.extend(_default, options);
 
-		$("div.modal").remove();
+ 		$("div.modal").remove();
 
 			//创建弹出框
 			var div='';
@@ -128,15 +128,51 @@ $.extend({
 	}
 });
 
+
+/**
+ * 提示框（用于提示操作成功，或操作失败）
+ * 位置位于点击按钮的附近位置。
+ * 动画展示，默认1秒后移除提示框
+ * 可用来替代js默认的alert
+ */
+ $.fn.extend({
+ 	"tips": function(options){
+ 		var _default = {
+ 			type:'success',
+ 			text:'操作成功!',
+ 			v_type:1,
+ 			timeout:1,
+ 		};
+ 		var opt = $.extend(_default, options);
+ 		$('.tips').remove();
+		//获取对象的坐标，并设置提示框坐标
+		var _w=$(this).width();
+		var _h=$(this).height();
+		var _offsetY=opt.v_type?(60-_h)/2:58;
+		var _x=$(this).offset().left-((136-_w)/2);
+		var _y=$(this).offset().top-_offsetY;
+
+		//创建提示框，显示后移除。
+		var _class='tips '+opt.type;
+		var _html='<p><i></i>'+opt.text+'</p>'
+		$('body').append($('<div/>',{class:_class,html:_html}))
+		$('.tips').css({left:_x,top:_y});
+		$('.tips').children('p').animate({top:0}).delay(opt.timeout*1000).animate({top:60},function(){
+			$(this).parent().remove();
+		});
+	}
+})
+
 /**	
  *===============
  * dialog对话框
  *===============
  */
-
-$.extend({
-	"dialog": function (options) {
-		var _default={
+ 
+/*
+ $.extend({
+ 	"dialog": function (options) {
+ 		var _default={
 			//0为error 1为success
 			type:1,
 			width:240,
@@ -186,11 +222,12 @@ $.extend({
 		}
 	}
 });
+*/
 
-
-*------------------
-* //modal弹出层样式
-*------------------
+/*------------------
+ * //modal弹出层样式
+ *------------------
+/
 
 /*
 .modal{position:absolute;box-shadow:0 0 10px #333;background:#fff;z-index:10000;position:fixed;}
@@ -205,9 +242,21 @@ $.extend({
 */
 
 
-*------------------
-* //dialog对话框样式
-*------------------
+/*---------------------------------
+ * //tips提示框可取代系统的alert
+ *---------------------------------
+/
+// .tips{height:46px;width:122px;padding:7px;overflow: hidden;position: absolute;z-index:1000;}
+// .tips p{border:1px solid #ccc;box-shadow: 0 0 6px rgba(0, 0, 0, 0.31);width:122px;height:46px;line-height:46px;text-align: center;border-radius: 2px;background: #fff;color:#808080;position:relative;top:60px;}
+// .tips p i{display: inline-block;width:16px;height: 16px;background: url(ico_warn.png) 0 0;margin-right:3px;vertical-align: middle;}
+// .tips.error i{background-position: 0 -250px;}
+
+
+
+/*------------------
+ * //dialog对话框样式
+ *------------------
+/
 
 /*
 .dialog{padding:20px;font-weight: bold;min-width: 200px;text-align: center;box-shadow: 2px 3px 3px #6B6B6B;position: absolute;}
