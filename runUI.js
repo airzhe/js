@@ -130,38 +130,75 @@
 
 
 /**
+ *=================================
  * 提示框（用于提示操作成功，或操作失败）
  * 位置位于点击按钮的附近位置。
- * 动画展示，默认1秒后移除提示框
- * 可用来替代js默认的alert
+ * 动画展示，默认1秒后移除提示框,可用来替代js默认的alert
+ *================================= 
  */
- $.fn.extend({
- 	"tips": function(options){
- 		var _default = {
- 			type:'success',
- 			text:'操作成功!',
- 			v_type:1,
- 			timeout:1,
- 		};
- 		var opt = $.extend(_default, options);
- 		$('.tips').remove();
+
+$.fn.extend({
+	"tips": function(options){
+		var _default = {
+			type:'success',
+			text:'操作成功!',
+			v_type:1,
+			timeout:1,
+		};
+		var opt = $.extend(_default, options);
+		$('.tips').remove();
 		//获取对象的坐标，并设置提示框坐标
 		var _w=$(this).width();
 		var _h=$(this).height();
-		var _offsetY=opt.v_type?(60-_h)/2:58;
-		var _x=$(this).offset().left-((136-_w)/2);
+		var _offsetY=opt.v_type?(54-_h)/2:58;
+		var _x=$(this).offset().left-((128-_w)/2);
 		var _y=$(this).offset().top-_offsetY;
 
 		//创建提示框，显示后移除。
 		var _class='tips '+opt.type;
-		var _html='<p><i></i>'+opt.text+'</p>'
+		var _html='<div class="content"><p><i></i>'+opt.text+'</p></div>'
 		$('body').append($('<div/>',{class:_class,html:_html}))
 		$('.tips').css({left:_x,top:_y});
-		$('.tips').children('p').animate({top:0}).delay(opt.timeout*1000).animate({top:60},function(){
+		$('.tips').children('.content').animate({top:0}).delay(opt.timeout*1000).animate({top:54},function(){
 			$(this).parent().remove();
 		});
 	}
 })
+
+
+
+/*------------------
+ * //modal弹出层样式
+ *------------------
+/
+
+/*
+.modal{position:absolute;box-shadow:0 0 10px #333;background:#fff;z-index:10000;position:fixed;}
+.modal_title{border-bottom: 1px solid #e5e5e5;height:46px;line-height:46px;position: relative;background-color:#f7f7f7;}
+.modal_title h2{font-size:16px;font-weight: 700;padding-left:20px;font-family: "microsoft yahei"}
+.modal_title i.close{position: absolute;right:15px;top:0px;cursor: pointer;color:#ccc;font-size: 30px;}
+.modal_title i.close:hover{color:#999;}
+.modal_body{padding:20px;font-size:14px;}
+.modal_footer{padding:15px;border-top: 1px solid #e5e5e5;text-align: right;}
+.modal_bg{position:absolute;background:#000;opacity:0.5;z-index:9999;left:0;top:0;}
+.modal input[type=submit],.modal button{padding:7px 13px;border:1px solid #e4e4e4;outline:none;background: none;cursor:pointer;color:#333;}
+*/
+
+
+/*---------------------------------
+ * tips提示框可取代系统的alert
+ *---------------------------------
+/
+
+/*
+.tips{width:128px;height:54px;position: absolute;overflow: hidden;}
+.tips .content{width:122px;padding:3px;border-radius:4px;z-index:1000;background: #fff url(http://img.t.sinajs.cn/t5/style/images/common/layer_bg.png);position:relative;top:54px;}
+.tips p{border:1px solid #ccc;padding:15px 0;text-align: center;border-radius: 2px;background: #fff;color:#808080;}
+.tips p i{display: inline-block;width:16px;height: 16px;background: url(ico_warn.png) 0 0;margin-right:3px;vertical-align: middle;vertical-align:-4px;}
+.tips.error i{background-position: 0 -250px;}
+*/
+
+
 
 /**	
  *===============
@@ -223,34 +260,6 @@
 	}
 });
 */
-
-/*------------------
- * //modal弹出层样式
- *------------------
-/
-
-/*
-.modal{position:absolute;box-shadow:0 0 10px #333;background:#fff;z-index:10000;position:fixed;}
-.modal_title{border-bottom: 1px solid #e5e5e5;height:46px;line-height:46px;position: relative;background-color:#f7f7f7;}
-.modal_title h2{font-size:16px;font-weight: 700;padding-left:20px;font-family: "microsoft yahei"}
-.modal_title i.close{position: absolute;right:15px;top:0px;cursor: pointer;color:#ccc;font-size: 30px;}
-.modal_title i.close:hover{color:#999;}
-.modal_body{padding:20px;font-size:14px;}
-.modal_footer{padding:15px;border-top: 1px solid #e5e5e5;text-align: right;}
-.modal_bg{position:absolute;background:#000;opacity:0.5;z-index:9999;left:0;top:0;}
-.modal input[type=submit],.modal button{padding:7px 13px;border:1px solid #e4e4e4;outline:none;background: none;cursor:pointer;color:#333;}
-*/
-
-
-/*---------------------------------
- * //tips提示框可取代系统的alert
- *---------------------------------
-/
-// .tips{height:46px;width:122px;padding:7px;overflow: hidden;position: absolute;z-index:1000;}
-// .tips p{border:1px solid #ccc;box-shadow: 0 0 6px rgba(0, 0, 0, 0.31);width:122px;height:46px;line-height:46px;text-align: center;border-radius: 2px;background: #fff;color:#808080;position:relative;top:60px;}
-// .tips p i{display: inline-block;width:16px;height: 16px;background: url(ico_warn.png) 0 0;margin-right:3px;vertical-align: middle;}
-// .tips.error i{background-position: 0 -250px;}
-
 
 
 /*------------------
