@@ -165,7 +165,38 @@ $.fn.extend({
 	}
 })
 
-
+/**
+ *=================================
+ * validate 表单提示样式
+ *================================= 
+ */
+$.fn.extend({
+	"form_tips":function(options){
+		//参数
+		var _default={
+			msg:'error'
+		}
+		var opt=$.extend(_default,options);
+		//创建提示
+		var form_tips='';
+		form_tips += '<div class="form_tips">';
+		form_tips += '<div class="content">';
+		form_tips += '<i class="icon_rederror"></i><label>'+ opt.msg +'</label><a href="javascript:void(0)" class="icon_close"></a>';
+		form_tips += '</div>';
+		form_tips += '<div class="arrow_tips"></div>';
+		form_tips += '</div>';
+		//加载提示
+		$(this).before(form_tips);
+		var _width=$(this).outerWidth();
+		var _left=$(this).offset().left-2;
+		var _top=$(this).offset().top-37;
+		$('.form_tips').css({width:_width,left:_left,top:_top}).find('label').text(opt.msg);
+		//点击关闭
+		$('.icon_close').on('click',function(){
+			$(this).parents('.form_tips').remove();
+		})
+	}
+})
 
 /*------------------
  * //modal弹出层样式
@@ -198,6 +229,21 @@ $.fn.extend({
 .tips.error i{background-position: 0 -250px;}
 */
 
+
+
+/*---------------------------------
+ * validate 表单提示样式
+ *---------------------------------
+/
+
+/*
+.form_tips{top:-37px;position:absolute;border-radius:4px;background:url(http://img.t.sinajs.cn/t5/style/images/common/layer_bg.png?id=1370232467958);padding:2px}
+.content{background:#fffae1;position:relative;border:1px solid #ccc;border-radius:2px;padding:5px 20px 5px 5px}
+.icon_rederror{width:16px;height:16px;background:url(http://img.t.sinajs.cn/t5/style/images/common/ico_warn.png);overflow:hidden;display:inline-block;background-position:0 -250px;vertical-align:middle;margin:0 3px 0 0}
+.icon_close{display:inline-block;width:12px;height:12px;background-image:url(http://img.t.sinajs.cn/t5/style/images/common/icon.png);background-repeat:no-repeat;background-position:-75px -25px;position:absolute;right:3px;top:7px}
+.icon_close:hover{background-position:-100px -25px}
+.arrow_tips{background:url(http://img.t.sinajs.cn/t5/style/images/layer/layer_arrow_tips.png) no-repeat;width:10px;height:8px;bottom:-5px;left:50%;margin-left:-7px;overflow:hidden;position:absolute}
+*/
 
 
 /**	
