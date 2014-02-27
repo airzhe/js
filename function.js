@@ -34,37 +34,26 @@ function error(msg){
 	alert(msg);
 }
 
-/*
-* 获得文字长度(英文两个算一个字符，中文汉字占一个字符。)
-* 使用count=getMessageLength('这是a和bc的故事.')
+/**	
+* /获得文字长度(英文两个算一个字符，中文汉字占一个字符。)
 */
-var getMessageLength = (function() { 
-	var byteLength = function(b) { 
-		if(typeof b == "undefined") { 
-			return 0; 
-		} 
-		var a = b.match(/[^\x00-\x80]/g); 
-		return(b.length + (!a ? 0 : a.length)); 
-	}; 
-	return function(message) { 
-		message = message || ''; 
-		message = message.replace(/\r\n/g, "\n"); 
-		var c = 41, 
-		d = 140, 
-		e = 20, 
-		f = message, 
-		g = message.match(/http:\/\/[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+([-A-Z0-9a-z_\$\.\+\!\*\(\)\/,:;@&=\?\~\#\%]*)*/gi) || [], 
-		h = 0; 
+function getMessageLength (b) { 
+	var a = b.match(/[^\x00-\x80]/g); 
+	var l=b.length + (!a ? 0 : a.length);
+	return Math.ceil(l/2); 
+}
 
-		for(var i = 0, j = g.length; i < j; i++) { 
-			var k = byteLength(g[i]); 
-			if(/^(http:\/\/t.cn)/.test(g[i])) { 
-				continue; 
-			} 
-			/^(http:\/\/)+(t.sina.com.cn|t.sina.cn)/.test(g[i]) || /^(http:\/\/)+(weibo.com|weibo.cn)/.test(g[i]) ? h += k <= c ? k : k <= d ? e : k - d + e : h += k <= d ? e : k - d + e; 
-			f = f.replace(g[i], ""); 
-		} 
-		var l = Math.ceil((h + byteLength(f)) / 2); 
-		return l; 
-	}; 
-})(); 
+/**
+ * 获取get参数
+ * @return {[object]} [返回数组对象]
+ */
+function getArgs(){
+	var args = {};
+	var match = null;
+	var search = decodeURIComponent(location.search.substring(1));
+	var reg = /(?:([^&]+)=([^&]+))/g;
+	while((match = reg.exec(search))!==null){
+		args[match[1]] = match[2];
+	}
+	return args;
+}
